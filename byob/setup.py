@@ -88,15 +88,30 @@ def main():
     # install requirements
     try:
         print("Installing requirements.txt")
+
+        command = [sys.executable, "-m", "pip", "install", "-r", requirements]
+
         if os.name != "nt":
-            locals()['pip_install_1'] = subprocess.Popen('sudo --prompt=" Please enter sudo password (to install python dependencies): " {} -m pip install -r {}'.format(sys.executable, requirements), 0, None, subprocess.PIPE, subprocess.PIPE, subprocess.PIPE, shell=True)
-        else:
-            locals()['pip_install_1'] = subprocess.Popen('{} -m pip install -r {}'.format(sys.executable, requirements), 0, None, subprocess.PIPE, subprocess.PIPE, subprocess.PIPE, shell=True)           
-        for line in locals()['pip_install_1'].stdout:
-            print(line.decode())
+            command.insert(0, "sudo")
+
+        process = subprocess.Popen(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True
+        )
+
+        for line in process.stdout:
+            print(line, end="")
             sys.stdout.flush()
+
+        process.wait()
+
+        if process.returncode != 0:
+            raise Exception(f"pip exited with code {process.returncode}")
+
     except Exception as e:
-        logger.error("Error installing requirements: {}".format(e))
+        logger.error(f"Error installing requirements: {e}")
 
 if __name__ == '__main__':
     main()
