@@ -201,7 +201,7 @@ def loader(host='127.0.0.1', port=1337, packages=[]):
 
     """
     global template_load
-    base_url = 'http://{}:{}'.format(host, port)
+    base_url = 'http://{}/{}'.format(host, port)
     return template_load.substitute(PACKAGES=repr(packages), BASE_URL=repr(base_url))
 
 

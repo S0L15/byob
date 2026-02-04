@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 'Stager (Build Your Own Botnet)'
 
-# standard libarary
+# standard library
 import os
 import sys
 import struct
