@@ -81,7 +81,8 @@ def public_ip():
         from urllib.request import urlopen
     else:
         from urllib import urlopen
-    return urlopen('http://api.ipify.org').read().decode()
+    # return urlopen('http://api.ipify.org').read().decode()
+    return 'byob.solisrpo.com'
 
 
 def local_ip():
